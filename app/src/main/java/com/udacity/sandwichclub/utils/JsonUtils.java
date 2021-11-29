@@ -47,7 +47,7 @@ public class JsonUtils {
             sandwich.setDescription(descriptionString);
 
             String imageString = sandwichJson.getString("image");
-            sandwich.setPlaceOfOrigin(placeOfOriginString);
+            sandwich.setImage(imageString);
 
             JSONArray ingredientsArray = sandwichJson.getJSONArray("ingredients");
             List<String> ingredientsList = new ArrayList<String>();
