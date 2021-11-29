@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -22,7 +23,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        ImageView ingredientsIv = findViewById(R.id.image_iv);
+        ImageView imageIv = findViewById(R.id.image_iv);
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -50,10 +51,10 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
-        populateUI();
+        populateUI(sandwich);
         Picasso.with(this)
                 .load(sandwich.getImage())
-                .into(ingredientsIv);
+                .into(imageIv);
 
         setTitle(sandwich.getMainName());
     }
@@ -63,7 +64,19 @@ public class DetailActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
-    private void populateUI() {
+    private void populateUI(Sandwich sandwich) {
+        TextView descriptionTv = (TextView) findViewById(R.id.description_tv);
+        TextView alsoKnownTv = (TextView) findViewById(R.id.also_known_tv);
+        TextView originTv = (TextView) findViewById(R.id.origin_tv);
+        TextView ingredientsTv = (TextView) findViewById(R.id.ingredients_tv);
+        descriptionTv.setText(sandwich.getDescription());
+        for (String otherName: sandwich.getAlsoKnownAs()) {
+            alsoKnownTv.append(otherName + "\n");
+        }
+        originTv.setText(sandwich.getPlaceOfOrigin());
+        for (String ingredient: sandwich.getIngredients()) {
+            ingredientsTv.append(ingredient + "\n");
+        }
 
     }
 }
