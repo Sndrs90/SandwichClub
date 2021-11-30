@@ -6,6 +6,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +61,9 @@ public class DetailActivity extends AppCompatActivity {
         Picasso.with(this)
                 .load(sandwich.getImage())
                 .into(imageIv);
+
+        View loadingIndicator = findViewById(R.id.loading_indicator);
+        loadingIndicator.setVisibility(View.GONE);
 
         setTitle(sandwich.getMainName());
 
