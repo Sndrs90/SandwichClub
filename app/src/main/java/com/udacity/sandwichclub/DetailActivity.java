@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,15 +84,45 @@ public class DetailActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void populateUI(Sandwich sandwich) {
+        // Find all TextViews
         TextView descriptionTv = (TextView) findViewById(R.id.description_tv);
         TextView alsoKnownTv = (TextView) findViewById(R.id.also_known_tv);
         TextView originTv = (TextView) findViewById(R.id.origin_tv);
         TextView ingredientsTv = (TextView) findViewById(R.id.ingredients_tv);
-        descriptionTv.setText(sandwich.getDescription());
-        alsoKnownTv.setText(String.join("\n", sandwich.getAlsoKnownAs()));
-        originTv.setText(sandwich.getPlaceOfOrigin());
-        ingredientsTv.setText(String.join("\n", sandwich.getIngredients()));
 
+        TextView descriptionLabel = (TextView) findViewById(R.id.description_label);
+        LinearLayout alsoKnownAll = (LinearLayout) findViewById(R.id.also_known_all);
+        LinearLayout originAll = (LinearLayout) findViewById(R.id.origin_all);
+        TextView ingredientsLabel = (TextView) findViewById(R.id.ingredients_label);
+
+        // Hide TextViews if sandwich doesn't contain these fields
+        // elsewhere set the text
+        if (TextUtils.isEmpty(sandwich.getDescription())) {
+            descriptionLabel.setVisibility(View.GONE);
+            descriptionTv.setVisibility(View.GONE);
+        } else {
+            descriptionTv.setText(sandwich.getDescription());
+        }
+
+        if (sandwich.getAlsoKnownAs().isEmpty()) {
+            alsoKnownAll.setVisibility(View.GONE);
+        } else {
+            // Delete last delimiter \n in List<String> output
+            alsoKnownTv.setText(String.join("\n", sandwich.getAlsoKnownAs()));
+        }
+
+        if (TextUtils.isEmpty(sandwich.getPlaceOfOrigin())) {
+            originAll.setVisibility(View.GONE);
+        } else {
+            originTv.setText(sandwich.getPlaceOfOrigin());
+        }
+
+        if (sandwich.getIngredients().isEmpty()) {
+            ingredientsLabel.setVisibility(View.GONE);
+            ingredientsTv.setVisibility(View.GONE);
+        } else {
+            ingredientsTv.setText(String.join("\n", sandwich.getIngredients()));
+        }
     }
 
     @Override
